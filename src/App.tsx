@@ -1,3 +1,8 @@
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import "./App.css";
 
 import heroImage from "./assets/hero.png";
@@ -84,9 +89,13 @@ function AdSlot({
         </span>
 
         <div className="ad-placeholder">
-          <strong>AD SPACE</strong>
+          <strong>
+            AD SPACE
+          </strong>
 
-          <span>{position}</span>
+          <span>
+            {position}
+          </span>
         </div>
       </div>
     </section>
@@ -94,16 +103,45 @@ function AdSlot({
 }
 
 function App() {
+  const [
+    menuOpen,
+    setMenuOpen,
+  ] = useState(false);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow =
+        "hidden";
+    } else {
+      document.body.style.overflow =
+        "";
+    }
+
+    return () => {
+      document.body.style.overflow =
+        "";
+    };
+  }, [menuOpen]);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   return (
     <div className="site">
       <header className="header">
         <a
           className="brand"
           href="#home"
+          onClick={closeMenu}
         >
-          <strong>flashpt7</strong>
+          <strong>
+            flashpt7
+          </strong>
 
-          <span>PHOTOGRAPHY</span>
+          <span>
+            PHOTOGRAPHY
+          </span>
         </a>
 
         <nav className="nav">
@@ -145,7 +183,132 @@ function App() {
             Let's Connect
           </a>
         </div>
+
+        <button
+          className={`mobile-menu-button ${
+            menuOpen
+              ? "is-open"
+              : ""
+          }`}
+          type="button"
+          aria-label={
+            menuOpen
+              ? "Close navigation"
+              : "Open navigation"
+          }
+          aria-expanded={menuOpen}
+          onClick={() =>
+            setMenuOpen(
+              (current) =>
+                !current,
+            )
+          }
+        >
+          <span />
+          <span />
+        </button>
       </header>
+
+      <div
+        className={`mobile-menu ${
+          menuOpen
+            ? "is-open"
+            : ""
+        }`}
+      >
+        <div className="mobile-menu-inner">
+          <p className="mobile-menu-label">
+            NAVIGATION
+          </p>
+
+          <nav className="mobile-navigation">
+            <a
+              href="#home"
+              onClick={closeMenu}
+            >
+              <span>
+                01
+              </span>
+
+              Home
+            </a>
+
+            <a
+              href="#gallery"
+              onClick={closeMenu}
+            >
+              <span>
+                02
+              </span>
+
+              Gallery
+            </a>
+
+            <a
+              href="#about"
+              onClick={closeMenu}
+            >
+              <span>
+                03
+              </span>
+
+              About
+            </a>
+
+            <a
+              href="#collaborations"
+              onClick={closeMenu}
+            >
+              <span>
+                04
+              </span>
+
+              Collaborations
+            </a>
+
+            <a
+              href="#contact"
+              onClick={closeMenu}
+            >
+              <span>
+                05
+              </span>
+
+              Contact
+            </a>
+          </nav>
+
+          <div className="mobile-menu-footer">
+            <div>
+              <p>
+                FOLLOW
+              </p>
+
+              <a
+                href="https://instagram.com/flashpt7"
+                target="_blank"
+                rel="noreferrer"
+              >
+                @flashpt7 ↗
+              </a>
+            </div>
+
+            <div className="mobile-menu-quote">
+              <span>
+                No rush.
+              </span>
+
+              <span>
+                No goals.
+              </span>
+
+              <strong>
+                Just moments.
+              </strong>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <main>
         <section
@@ -166,8 +329,7 @@ function App() {
         >
           <div className="hero-inner">
             <p className="hero-kicker">
-              NATURE · ANIMALS · AUTOMOTIVE ·
-              MACRO · LANDSCAPES
+              NATURE · ANIMALS · AUTOMOTIVE · MACRO · LANDSCAPES
             </p>
 
             <h1>
@@ -190,7 +352,9 @@ function App() {
             >
               Explore Gallery
 
-              <span>→</span>
+              <span>
+                →
+              </span>
             </a>
           </div>
 
@@ -199,8 +363,13 @@ function App() {
           </div>
 
           <div className="hero-quote">
-            <span>No rush.</span>
-            <span>No goals.</span>
+            <span>
+              No rush.
+            </span>
+
+            <span>
+              No goals.
+            </span>
 
             <strong>
               Just moments.
@@ -221,8 +390,7 @@ function App() {
               </h2>
 
               <p>
-                DIFFERENT PERSPECTIVES.
-                SAME PASSION.
+                DIFFERENT PERSPECTIVES. SAME PASSION.
               </p>
             </div>
 
@@ -258,7 +426,9 @@ function App() {
                     <span className="category-link">
                       See more
 
-                      <span>→</span>
+                      <span>
+                        →
+                      </span>
                     </span>
                   </div>
                 </a>
@@ -292,12 +462,10 @@ function App() {
             </h2>
 
             <p className="body-copy">
-              I'm Guilherme Silva, the mind
-              behind flashpt7. Photography is
-              my way of seeing the world —
-              finding beauty in the smallest
-              details and capturing moments
-              worth remembering.
+              I'm Guilherme Silva, the mind behind flashpt7.
+              Photography is my way of seeing the world —
+              finding beauty in the smallest details and
+              capturing moments worth remembering.
             </p>
 
             <a
@@ -306,7 +474,9 @@ function App() {
             >
               Learn More
 
-              <span>→</span>
+              <span>
+                →
+              </span>
             </a>
           </article>
 
@@ -351,7 +521,9 @@ function App() {
             >
               Get In Touch
 
-              <span>→</span>
+              <span>
+                →
+              </span>
             </a>
           </article>
         </section>
@@ -363,8 +535,7 @@ function App() {
             </p>
 
             <h2>
-              More than a photography
-              portfolio.
+              More than a photography portfolio.
             </h2>
           </div>
 
@@ -415,15 +586,16 @@ function App() {
 
           <div className="contact-side">
             <p>
-              Photography, collaborations,
-              partnerships or simply a
-              conversation.
+              Photography, collaborations, partnerships
+              or simply a conversation.
             </p>
 
             <a href="mailto:contact@flashpt7.com">
               contact@flashpt7.com
 
-              <span>↗</span>
+              <span>
+                ↗
+              </span>
             </a>
           </div>
         </section>
