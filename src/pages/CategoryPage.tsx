@@ -4,6 +4,12 @@ import {
   useParams,
 } from "react-router-dom";
 
+import heroImage from "../assets/hero.png";
+
+import PhotoGallery, {
+  type PhotoItem,
+} from "../components/PhotoGallery";
+
 import {
   galleryCategories,
 } from "../data/gallery";
@@ -27,6 +33,27 @@ function CategoryPage() {
       />
     );
   }
+
+  const photos: PhotoItem[] =
+    Array.from({
+      length: 8,
+    }).map(
+      (
+        _,
+        index,
+      ) => ({
+        id: index + 1,
+
+        src: heroImage,
+
+        title: `${category.title} ${
+          index + 1
+        }`,
+
+        description:
+          category.description,
+      }),
+    );
 
   return (
     <div className="route-page">
@@ -67,34 +94,9 @@ function CategoryPage() {
           </p>
         </section>
 
-        <section className="photo-placeholder-grid">
-          {Array.from({
-            length: 8,
-          }).map(
-            (
-              _,
-              index,
-            ) => (
-              <article
-                className="photo-placeholder"
-                key={index}
-              >
-                <span>
-                  PHOTO
-                </span>
-
-                <strong>
-                  {String(
-                    index + 1,
-                  ).padStart(
-                    2,
-                    "0",
-                  )}
-                </strong>
-              </article>
-            ),
-          )}
-        </section>
+        <PhotoGallery
+          photos={photos}
+        />
 
         <div className="category-page-footer">
           <Link to="/gallery">
