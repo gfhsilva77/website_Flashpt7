@@ -7,6 +7,8 @@ import {
   Link,
 } from "react-router-dom";
 
+import ContactForm from "../components/ContactForm";
+
 import hero01 from "../assets/home/hero-01.png";
 import hero02 from "../assets/home/hero-02.png";
 import hero03 from "../assets/home/hero-03.png";
@@ -45,10 +47,7 @@ const heroSlides = [
   },
 ];
 
-const categoryImages: Record<
-  string,
-  string
-> = {
+const categoryImages: Record<string, string> = {
   macro: macroImage,
   animals: animalsImage,
   landscapes: landscapesImage,
@@ -60,50 +59,42 @@ const features = [
   {
     icon: "◉",
     title: "Large View",
-    description:
-      "Photography in fullscreen.",
+    description: "Photography in fullscreen.",
   },
   {
     icon: "◐",
     title: "Before / After",
-    description:
-      "Compare original and edited.",
+    description: "Compare original and edited.",
   },
   {
     icon: "▦",
     title: "Collections",
-    description:
-      "Photography series and projects.",
+    description: "Photography series and projects.",
   },
   {
     icon: "▣",
     title: "Private Galleries",
-    description:
-      "Exclusive client galleries.",
+    description: "Exclusive client galleries.",
   },
   {
     icon: "⌖",
     title: "Photo Map",
-    description:
-      "Explore photographs by location.",
+    description: "Explore photographs by location.",
   },
   {
     icon: "♡",
     title: "Favorites",
-    description:
-      "Save photographs you love.",
+    description: "Save photographs you love.",
   },
   {
     icon: "⌕",
     title: "Search",
-    description:
-      "Find photographs quickly.",
+    description: "Find photographs quickly.",
   },
   {
     icon: "▷",
     title: "Slideshow",
-    description:
-      "Immersive fullscreen presentation.",
+    description: "Immersive fullscreen presentation.",
   },
 ];
 
@@ -414,9 +405,7 @@ function HomePage() {
                 <button
                   type="button"
                   aria-label="Previous slide"
-                  onClick={
-                    previousSlide
-                  }
+                  onClick={previousSlide}
                 >
                   ←
                 </button>
@@ -424,9 +413,7 @@ function HomePage() {
                 <button
                   type="button"
                   aria-label="Next slide"
-                  onClick={
-                    nextSlide
-                  }
+                  onClick={nextSlide}
                 >
                   →
                 </button>
@@ -464,9 +451,7 @@ function HomePage() {
               {galleryCategories.map(
                 (category) => (
                   <Link
-                    key={
-                      category.slug
-                    }
+                    key={category.slug}
                     to={`/gallery/${category.slug}`}
                     className="home-category-card"
                   >
@@ -535,13 +520,12 @@ function HomePage() {
 
             <p className="home-body-text">
               I'm Guilherme Silva,
-              the mind behind
-              flashpt7. Photography
-              is my way of capturing
-              the details, places,
-              movement and moments
-              that make me stop and
-              look.
+              the mind behind flashpt7.
+              Photography is my way of
+              capturing the details,
+              places, movement and
+              moments that make me stop
+              and look.
             </p>
 
             <a
@@ -631,13 +615,11 @@ function HomePage() {
         <section className="home-features">
           <div className="home-features-heading">
             <p>
-              FUNCTIONALITIES THAT MAKE
-              A DIFFERENCE
+              FUNCTIONALITIES THAT MAKE A DIFFERENCE
             </p>
 
             <span>
-              Capture · Edit · Share ·
-              Inspire
+              Capture · Edit · Share · Inspire
             </span>
           </div>
 
@@ -645,29 +627,21 @@ function HomePage() {
             {features.map(
               (feature) => (
                 <article
-                  key={
-                    feature.title
-                  }
+                  key={feature.title}
                   className="home-feature-card"
                 >
                   <div className="home-feature-preview">
                     <span>
-                      {
-                        feature.icon
-                      }
+                      {feature.icon}
                     </span>
                   </div>
 
                   <h3>
-                    {
-                      feature.title
-                    }
+                    {feature.title}
                   </h3>
 
                   <p>
-                    {
-                      feature.description
-                    }
+                    {feature.description}
                   </p>
                 </article>
               ),
@@ -694,23 +668,23 @@ function HomePage() {
                 something memorable.
               </em>
             </h2>
+
+            <p className="home-body-text">
+              Photography, collaborations,
+              partnerships or simply a conversation.
+            </p>
+
+            <a
+              href="mailto:contact@flashpt7.com"
+              className="home-outline-button home-small-button"
+            >
+              contact@flashpt7.com
+              <span>↗</span>
+            </a>
           </div>
 
           <div className="home-contact-right">
-            <p>
-              Photography,
-              collaborations,
-              partnerships or simply
-              a conversation.
-            </p>
-
-            <a href="mailto:contact@flashpt7.com">
-              contact@flashpt7.com
-
-              <span>
-                ↗
-              </span>
-            </a>
+            <ContactForm />
           </div>
         </section>
 
