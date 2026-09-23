@@ -7,36 +7,79 @@ import {
   Link,
 } from "react-router-dom";
 
-import heroImage from "../assets/hero.png";
+import hero01 from "../assets/home/hero-01.png";
+import hero02 from "../assets/home/hero-02.png";
+import hero03 from "../assets/home/hero-03.png";
+import hero04 from "../assets/home/hero-04.png";
+
+import macroImage from "../assets/home/macro.png";
+import animalsImage from "../assets/home/animals.png";
+import landscapesImage from "../assets/home/landscapes.png";
+import automotiveImage from "../assets/home/automotive.png";
+import natureImage from "../assets/home/nature.png";
 
 import {
   galleryCategories,
 } from "../data/gallery";
 
+const heroSlides = [
+  {
+    image: hero01,
+    label:
+      "NATURE · ANIMALS · AUTOMOTIVE · MACRO · LANDSCAPES",
+  },
+  {
+    image: hero02,
+    label:
+      "AUTOMOTIVE · MOTION · SPEED · STORIES",
+  },
+  {
+    image: hero03,
+    label:
+      "LANDSCAPES · LIGHT · PLACES · MOMENTS",
+  },
+  {
+    image: hero04,
+    label:
+      "NATURE · DETAILS · LIFE · PERSPECTIVES",
+  },
+];
+
+const categoryImages: Record<
+  string,
+  string
+> = {
+  macro: macroImage,
+  animals: animalsImage,
+  landscapes: landscapesImage,
+  automotive: automotiveImage,
+  nature: natureImage,
+};
+
 const features = [
   {
     icon: "◉",
-    title: "Full View",
+    title: "Large View",
     description:
-      "View photographs in large format.",
+      "Photography in fullscreen.",
   },
   {
     icon: "◐",
     title: "Before / After",
     description:
-      "Compare photography edits.",
+      "Compare original and edited.",
   },
   {
     icon: "▦",
     title: "Collections",
     description:
-      "Explore complete photography series.",
+      "Photography series and projects.",
   },
   {
     icon: "▣",
     title: "Private Galleries",
     description:
-      "Exclusive galleries for clients.",
+      "Exclusive client galleries.",
   },
   {
     icon: "⌖",
@@ -48,7 +91,7 @@ const features = [
     icon: "♡",
     title: "Favorites",
     description:
-      "Save and revisit your favorites.",
+      "Save photographs you love.",
   },
   {
     icon: "⌕",
@@ -60,7 +103,7 @@ const features = [
     icon: "▷",
     title: "Slideshow",
     description:
-      "Explore photography fullscreen.",
+      "Immersive fullscreen presentation.",
   },
 ];
 
@@ -71,15 +114,15 @@ function AdSlot({
 }) {
   return (
     <section
-      className="ad-wrapper"
+      className="home-ad"
       aria-label="Advertisement"
     >
-      <div className="ad-slot">
-        <span className="ad-tag">
+      <div className="home-ad-inner">
+        <span className="home-ad-label">
           ADVERTISEMENT
         </span>
 
-        <div className="ad-placeholder">
+        <div>
           <strong>
             AD SPACE
           </strong>
@@ -99,6 +142,11 @@ function HomePage() {
     setMenuOpen,
   ] = useState(false);
 
+  const [
+    currentSlide,
+    setCurrentSlide,
+  ] = useState(0);
+
   useEffect(() => {
     document.body.style.overflow =
       menuOpen
@@ -111,162 +159,281 @@ function HomePage() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const interval =
+      window.setInterval(
+        () => {
+          setCurrentSlide(
+            (current) =>
+              (
+                current + 1
+              ) %
+              heroSlides.length,
+          );
+        },
+        7000,
+      );
+
+    return () => {
+      window.clearInterval(
+        interval,
+      );
+    };
+  }, []);
+
   const closeMenu = () => {
     setMenuOpen(false);
   };
 
+  const previousSlide = () => {
+    setCurrentSlide(
+      (current) =>
+        current === 0
+          ? heroSlides.length - 1
+          : current - 1,
+    );
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide(
+      (current) =>
+        (
+          current + 1
+        ) %
+        heroSlides.length,
+    );
+  };
+
+  const slide =
+    heroSlides[currentSlide];
+
   return (
-    <div className="site">
-      <header className="header">
-        <a
-          className="brand"
-          href="#home"
-          onClick={closeMenu}
+    <div className="home-page">
+      <main className="home-layout">
+        <section
+          className="portfolio-frame"
+          id="home"
         >
-          <strong>
-            flashpt7
-          </strong>
-
-          <span>
-            PHOTOGRAPHY
-          </span>
-        </a>
-
-        <nav className="nav">
-          <a href="#home">
-            Home
-          </a>
-
-          <Link to="/gallery">
-            Gallery
-          </Link>
-
-          <a href="#about">
-            About
-          </a>
-
-          <a href="#collaborations">
-            Collaborations
-          </a>
-
-          <a href="#contact">
-            Contact
-          </a>
-        </nav>
-
-        <div className="header-right">
-          <a
-            className="instagram"
-            href="https://instagram.com/flashpt7"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Instagram
-          </a>
-
-          <a
-            className="connect"
-            href="#contact"
-          >
-            Let's Connect
-          </a>
-        </div>
-
-        <button
-          className={`mobile-menu-button ${
-            menuOpen
-              ? "is-open"
-              : ""
-          }`}
-          type="button"
-          aria-label={
-            menuOpen
-              ? "Close navigation"
-              : "Open navigation"
-          }
-          aria-expanded={menuOpen}
-          onClick={() =>
-            setMenuOpen(
-              (current) =>
-                !current,
-            )
-          }
-        >
-          <span />
-          <span />
-        </button>
-      </header>
-
-      <div
-        className={`mobile-menu ${
-          menuOpen
-            ? "is-open"
-            : ""
-        }`}
-      >
-        <div className="mobile-menu-inner">
-          <p className="mobile-menu-label">
-            NAVIGATION
-          </p>
-
-          <nav className="mobile-navigation">
+          <header className="home-header">
             <a
               href="#home"
+              className="home-logo"
               onClick={closeMenu}
             >
-              <span>01</span>
-              Home
+              <strong>
+                flashpt7
+              </strong>
+
+              <span>
+                PHOTOGRAPHY
+              </span>
             </a>
 
-            <Link
-              to="/gallery"
-              onClick={closeMenu}
-            >
-              <span>02</span>
-              Gallery
-            </Link>
+            <nav className="home-nav">
+              <a href="#home">
+                Home
+              </a>
 
-            <a
-              href="#about"
-              onClick={closeMenu}
-            >
-              <span>03</span>
-              About
-            </a>
+              <Link to="/gallery">
+                Gallery
+              </Link>
 
-            <a
-              href="#collaborations"
-              onClick={closeMenu}
-            >
-              <span>04</span>
-              Collaborations
-            </a>
+              <a href="#about">
+                About
+              </a>
 
-            <a
-              href="#contact"
-              onClick={closeMenu}
-            >
-              <span>05</span>
-              Contact
-            </a>
-          </nav>
+              <a href="#collaborations">
+                Collaborations
+              </a>
 
-          <div className="mobile-menu-footer">
-            <div>
-              <p>
-                FOLLOW
-              </p>
+              <a href="#contact">
+                Contact
+              </a>
+            </nav>
 
+            <div className="home-header-actions">
               <a
                 href="https://instagram.com/flashpt7"
                 target="_blank"
                 rel="noreferrer"
+                className="home-instagram"
+                aria-label="Instagram"
               >
-                @flashpt7 ↗
+                ◎
+              </a>
+
+              <a
+                href="#contact"
+                className="home-connect"
+              >
+                Let's Connect
               </a>
             </div>
 
-            <div className="mobile-menu-quote">
+            <button
+              className={`home-menu-button ${
+                menuOpen
+                  ? "is-open"
+                  : ""
+              }`}
+              type="button"
+              aria-label="Toggle navigation"
+              aria-expanded={menuOpen}
+              onClick={() =>
+                setMenuOpen(
+                  (current) =>
+                    !current,
+                )
+              }
+            >
+              <span />
+              <span />
+            </button>
+          </header>
+
+          <div
+            className="home-mobile-menu"
+            data-open={menuOpen}
+          >
+            <nav>
+              <a
+                href="#home"
+                onClick={closeMenu}
+              >
+                Home
+              </a>
+
+              <Link
+                to="/gallery"
+                onClick={closeMenu}
+              >
+                Gallery
+              </Link>
+
+              <a
+                href="#about"
+                onClick={closeMenu}
+              >
+                About
+              </a>
+
+              <a
+                href="#collaborations"
+                onClick={closeMenu}
+              >
+                Collaborations
+              </a>
+
+              <a
+                href="#contact"
+                onClick={closeMenu}
+              >
+                Contact
+              </a>
+            </nav>
+
+            <div>
+              No rush.
+              <br />
+              No goals.
+              <br />
+
+              <strong>
+                Just moments.
+              </strong>
+            </div>
+          </div>
+
+          <section className="home-hero">
+            <div
+              key={currentSlide}
+              className="home-hero-background"
+              style={{
+                backgroundImage: `
+                  linear-gradient(
+                    90deg,
+                    rgba(3, 5, 6, 0.96) 0%,
+                    rgba(3, 5, 6, 0.78) 30%,
+                    rgba(3, 5, 6, 0.22) 70%,
+                    rgba(3, 5, 6, 0.46) 100%
+                  ),
+                  url(${slide.image})
+                `,
+              }}
+            />
+
+            <div className="home-hero-content">
+              <p className="home-hero-categories">
+                {slide.label}
+              </p>
+
+              <h1>
+                FLASHPT7
+
+                <span>
+                  PHOTOGRAPHY
+                </span>
+              </h1>
+
+              <p className="home-hero-copy">
+                More than pictures.
+                <br />
+                Just moments.
+              </p>
+
+              <Link
+                to="/gallery"
+                className="home-outline-button"
+              >
+                Explore Gallery
+
+                <span>
+                  →
+                </span>
+              </Link>
+            </div>
+
+            <div className="home-hero-bottom">
+              <span>
+                {String(
+                  currentSlide + 1,
+                ).padStart(
+                  2,
+                  "0",
+                )}
+                {" / "}
+                {String(
+                  heroSlides.length,
+                ).padStart(
+                  2,
+                  "0",
+                )}
+              </span>
+
+              <div className="home-slider-arrows">
+                <button
+                  type="button"
+                  aria-label="Previous slide"
+                  onClick={
+                    previousSlide
+                  }
+                >
+                  ←
+                </button>
+
+                <button
+                  type="button"
+                  aria-label="Next slide"
+                  onClick={
+                    nextSlide
+                  }
+                >
+                  →
+                </button>
+              </div>
+            </div>
+
+            <div className="home-hero-quote">
               <span>
                 No rush.
               </span>
@@ -279,171 +446,107 @@ function HomePage() {
                 Just moments.
               </strong>
             </div>
-          </div>
-        </div>
-      </div>
+          </section>
 
-      <main>
-        <section
-          className="hero"
-          id="home"
-          style={{
-            backgroundImage: `
-              linear-gradient(
-                90deg,
-                rgba(3, 5, 6, 0.94) 0%,
-                rgba(3, 5, 6, 0.76) 33%,
-                rgba(3, 5, 6, 0.25) 68%,
-                rgba(3, 5, 6, 0.60) 100%
-              ),
-              url(${heroImage})
-            `,
-          }}
-        >
-          <div className="hero-inner">
-            <p className="hero-kicker">
-              NATURE · ANIMALS · AUTOMOTIVE · MACRO · LANDSCAPES
-            </p>
-
-            <h1>
-              FLASHPT7
-
-              <span>
-                PHOTOGRAPHY
-              </span>
-            </h1>
-
-            <p className="hero-copy">
-              More than pictures.
-              <br />
-              Just moments.
-            </p>
-
-            <Link
-              to="/gallery"
-              className="outline-button"
-            >
-              Explore Gallery
-
-              <span>
-                →
-              </span>
-            </Link>
-          </div>
-
-          <div className="hero-index">
-            01 / 04
-          </div>
-
-          <div className="hero-quote">
-            <span>
-              No rush.
-            </span>
-
-            <span>
-              No goals.
-            </span>
-
-            <strong>
-              Just moments.
-            </strong>
-          </div>
-        </section>
-
-        <section
-          className="gallery-section"
-          id="gallery"
-        >
-          <div className="section-heading">
-            <div className="heading-line" />
-
-            <div className="heading-content">
+          <section className="home-category-section">
+            <div className="home-category-title">
               <h2>
                 EXPLORE MY WORK
               </h2>
 
               <p>
-                DIFFERENT PERSPECTIVES. SAME PASSION.
+                DIFFERENT PERSPECTIVES.
+                SAME PASSION.
               </p>
             </div>
 
-            <div className="heading-line" />
-          </div>
+            <div className="home-category-grid">
+              {galleryCategories.map(
+                (category) => (
+                  <Link
+                    key={
+                      category.slug
+                    }
+                    to={`/gallery/${category.slug}`}
+                    className="home-category-card"
+                  >
+                    <div className="home-category-image">
+                      <img
+                        src={
+                          categoryImages[
+                            category.slug
+                          ]
+                        }
+                        alt={
+                          category.title
+                        }
+                      />
 
-          <div className="category-grid">
-            {galleryCategories.map(
-              (category) => (
-                <Link
-                  to={`/gallery/${category.slug}`}
-                  className="category-card"
-                  key={category.slug}
-                >
-                  <div className="category-photo">
-                    <img
-                      src={heroImage}
-                      alt={category.title}
-                    />
+                      <div />
+                    </div>
 
-                    <div className="category-overlay" />
-                  </div>
+                    <div className="home-category-info">
+                      <h3>
+                        {
+                          category.title
+                        }
+                      </h3>
 
-                  <div className="category-content">
-                    <h3>
-                      {category.title}
-                    </h3>
-
-                    <p>
-                      {category.description}
-                    </p>
-
-                    <span className="category-link">
-                      See more
+                      <p>
+                        {
+                          category.description
+                        }
+                      </p>
 
                       <span>
-                        →
+                        See more →
                       </span>
-                    </span>
-                  </div>
-                </Link>
-              ),
-            )}
-          </div>
+                    </div>
+                  </Link>
+                ),
+              )}
+            </div>
+          </section>
         </section>
 
-        <AdSlot position="Main homepage placement" />
+        <AdSlot position="Homepage premium placement" />
 
-        <section className="split-section">
+        <section className="home-about-work">
           <article
-            className="about-block"
+            className="home-about"
             id="about"
           >
-            <span className="block-number">
+            <span className="home-section-number">
               01
             </span>
 
-            <p className="eyebrow">
+            <p className="home-small-title">
               ABOUT ME
             </p>
 
             <h2>
-              Capturing what
+              Photography is
               <br />
 
               <em>
-                makes me feel alive.
+                how I see.
               </em>
             </h2>
 
-            <p className="body-copy">
-              I'm Guilherme Silva, the mind behind flashpt7.
-              Photography is my way of seeing the world —
-              finding beauty in the smallest details and
-              capturing moments worth remembering.
+            <p className="home-body-text">
+              I'm Guilherme Silva,
+              the mind behind
+              flashpt7. Photography
+              is my way of capturing
+              the details, places,
+              movement and moments
+              that make me stop and
+              look.
             </p>
 
             <a
               href="#contact"
-              className="outline-button small"
+              className="home-outline-button home-small-button"
             >
               Learn More
 
@@ -451,17 +554,23 @@ function HomePage() {
                 →
               </span>
             </a>
+
+            <div className="home-script">
+              Details
+              <br />
+              matter.
+            </div>
           </article>
 
           <article
-            className="work-block"
+            className="home-work"
             id="collaborations"
           >
-            <span className="block-number">
+            <span className="home-section-number">
               02
             </span>
 
-            <p className="eyebrow">
+            <p className="home-small-title">
               WORK WITH ME
             </p>
 
@@ -470,27 +579,45 @@ function HomePage() {
               <br />
 
               <em>
-                something together.
+                something real.
               </em>
             </h2>
 
-            <div className="work-options">
-              <span>
-                Photography
-              </span>
+            <div className="home-work-options">
+              <div>
+                <span>
+                  ◉
+                </span>
 
-              <span>
-                Collaborations
-              </span>
+                <strong>
+                  Photography
+                </strong>
+              </div>
 
-              <span>
-                Brand Partnerships
-              </span>
+              <div>
+                <span>
+                  ♢
+                </span>
+
+                <strong>
+                  Collaborations
+                </strong>
+              </div>
+
+              <div>
+                <span>
+                  ✓
+                </span>
+
+                <strong>
+                  Brand Partnerships
+                </strong>
+              </div>
             </div>
 
             <a
               href="#contact"
-              className="outline-button small"
+              className="home-outline-button home-small-button"
             >
               Get In Touch
 
@@ -501,34 +628,46 @@ function HomePage() {
           </article>
         </section>
 
-        <section className="features">
-          <div className="features-title">
+        <section className="home-features">
+          <div className="home-features-heading">
             <p>
-              FUNCTIONALITIES
+              FUNCTIONALITIES THAT MAKE
+              A DIFFERENCE
             </p>
 
-            <h2>
-              More than a photography portfolio.
-            </h2>
+            <span>
+              Capture · Edit · Share ·
+              Inspire
+            </span>
           </div>
 
-          <div className="features-grid">
+          <div className="home-features-grid">
             {features.map(
               (feature) => (
                 <article
-                  className="feature-card"
-                  key={feature.title}
+                  key={
+                    feature.title
+                  }
+                  className="home-feature-card"
                 >
-                  <span className="feature-icon">
-                    {feature.icon}
-                  </span>
+                  <div className="home-feature-preview">
+                    <span>
+                      {
+                        feature.icon
+                      }
+                    </span>
+                  </div>
 
                   <h3>
-                    {feature.title}
+                    {
+                      feature.title
+                    }
                   </h3>
 
                   <p>
-                    {feature.description}
+                    {
+                      feature.description
+                    }
                   </p>
                 </article>
               ),
@@ -536,31 +675,33 @@ function HomePage() {
           </div>
         </section>
 
-        <AdSlot position="Secondary homepage placement" />
+        <AdSlot position="Homepage secondary placement" />
 
         <section
-          className="contact"
+          className="home-contact"
           id="contact"
         >
           <div>
-            <p className="eyebrow">
+            <p className="home-small-title">
               CONTACT
             </p>
 
             <h2>
-              Have something
+              Let's make
               <br />
 
               <em>
-                in mind?
+                something memorable.
               </em>
             </h2>
           </div>
 
-          <div className="contact-side">
+          <div className="home-contact-right">
             <p>
-              Photography, collaborations, partnerships
-              or simply a conversation.
+              Photography,
+              collaborations,
+              partnerships or simply
+              a conversation.
             </p>
 
             <a href="mailto:contact@flashpt7.com">
@@ -572,37 +713,38 @@ function HomePage() {
             </a>
           </div>
         </section>
+
+        <footer className="home-footer">
+          <div>
+            <strong>
+              flashpt7
+            </strong>
+
+            <span>
+              PHOTOGRAPHY
+            </span>
+          </div>
+
+          <p>
+            No rush. No goals.
+            Just moments.
+          </p>
+
+          <div className="home-footer-right">
+            <a
+              href="https://instagram.com/flashpt7"
+              target="_blank"
+              rel="noreferrer"
+            >
+              @flashpt7
+            </a>
+
+            <span>
+              © 2026
+            </span>
+          </div>
+        </footer>
       </main>
-
-      <footer className="footer">
-        <div className="footer-logo">
-          <strong>
-            flashpt7
-          </strong>
-
-          <span>
-            PHOTOGRAPHY
-          </span>
-        </div>
-
-        <p>
-          No rush. No goals. Just moments.
-        </p>
-
-        <div className="footer-meta">
-          <a
-            href="https://instagram.com/flashpt7"
-            target="_blank"
-            rel="noreferrer"
-          >
-            @flashpt7
-          </a>
-
-          <span>
-            © 2026
-          </span>
-        </div>
-      </footer>
     </div>
   );
 }
