@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url(
+  "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap"
+);
 
 :root {
   font-family:
@@ -8,39 +10,78 @@
     "Segoe UI",
     sans-serif;
 
-  color: #ffffff;
-  background: #050505;
+  color: #f5f5f2;
+
+  background: #050708;
 
   font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+  text-rendering:
+    optimizeLegibility;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
 * {
-  box-sizing: border-box;
+  box-sizing:
+    border-box;
 }
 
 html {
-  scroll-behavior: smooth;
-}
-
-html,
-body,
-#root {
   margin: 0;
 
+  scroll-behavior:
+    smooth;
+
+  background: #050708;
+}
+
+body,
+#root {
   width: 100%;
+
   min-width: 320px;
-  min-height: 100%;
+
+  min-height: 100vh;
+
+  margin: 0;
 }
 
 body {
-  min-height: 100vh;
-  background: #050505;
+  overflow-x: hidden;
+
+  background: #050708;
 }
 
 button,
+input,
+textarea,
 a {
   font: inherit;
+}
+
+::selection {
+  background: #e5e5df;
+
+  color: #050505;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050708;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #292d2d;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4040;
 }
