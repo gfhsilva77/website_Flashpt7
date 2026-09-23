@@ -3,264 +3,360 @@ import {
   useState,
 } from "react";
 
+import "./PhotoGallery.css";
+
 export type PhotoItem = {
-  id: number;
+  id: number | string;
   src: string;
-  title: string;
+  title?: string;
   description?: string;
+  alt?: string;
 };
 
 type PhotoGalleryProps = {
   photos: PhotoItem[];
 };
 
+const layoutClasses = [
+  "featured",
+  "portrait",
+  "standard",
+  "wide",
+  "tall",
+  "standard",
+  "wide",
+  "portrait",
+];
+
 function PhotoGallery({
   photos,
 }: PhotoGalleryProps) {
   const [
-    activeIndex,
-    setActiveIndex,
-  ] = useState<number | null>(null);
+    selectedIndex,
+    setSelectedIndex,
+  ] = useState<number | null>(
+    null,
+  );
 
   const closeLightbox = () => {
-    setActiveIndex(null);
+    setSelectedIndex(null);
   };
 
-  const showPrevious = () => {
-    setActiveIndex(
-      (current) => {
-        if (
-          current === null ||
-          photos.length === 0
-        ) {
-          return current;
-        }
+  const previousPhoto = () => {
+    if (
+      selectedIndex === null
+    ) {
+      return;
+    }
 
-        return current === 0
-          ? photos.length - 1
-          : current - 1;
-      },
+    setSelectedIndex(
+      selectedIndex === 0
+        ? photos.length - 1
+        : selectedIndex - 1,
     );
   };
 
-  const showNext = () => {
-    setActiveIndex(
-      (current) => {
-        if (
-          current === null ||
-          photos.length === 0
-        ) {
-          return current;
-        }
+  const nextPhoto = () => {
+    if (
+      selectedIndex === null
+    ) {
+      return;
+    }
 
-        return current ===
-          photos.length - 1
-          ? 0
-          : current + 1;
-      },
+    setSelectedIndex(
+      (
+        selectedIndex + 1
+      ) %
+        photos.length,
     );
   };
 
   useEffect(() => {
-    if (activeIndex === null) {
-      document.body.style.overflow =
-        "";
-
+    if (
+      selectedIndex === null
+    ) {
       return;
     }
 
-    document.body.style.overflow =
-      "hidden";
-
-    const handleKeyboard = (
+    const handleKeyDown = (
       event: KeyboardEvent,
     ) => {
-      if (event.key === "Escape") {
+      if (
+        event.key ===
+        "Escape"
+      ) {
         closeLightbox();
       }
 
       if (
-        event.key === "ArrowLeft"
+        event.key ===
+        "ArrowLeft"
       ) {
-        showPrevious();
+        setSelectedIndex(
+          (current) => {
+            if (
+              current === null
+            ) {
+              return null;
+            }
+
+            return current === 0
+              ? photos.length - 1
+              : current - 1;
+          },
+        );
       }
 
       if (
-        event.key === "ArrowRight"
+        event.key ===
+        "ArrowRight"
       ) {
-        showNext();
+        setSelectedIndex(
+          (current) => {
+            if (
+              current === null
+            ) {
+              return null;
+            }
+
+            return (
+              current + 1
+            ) %
+              photos.length;
+          },
+        );
       }
     };
 
+    document.body.style.overflow =
+      "hidden";
+
     window.addEventListener(
       "keydown",
-      handleKeyboard,
+      handleKeyDown,
     );
 
     return () => {
-      window.removeEventListener(
-        "keydown",
-        handleKeyboard,
-      );
-
       document.body.style.overflow =
         "";
+
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown,
+      );
     };
   }, [
-    activeIndex,
+    selectedIndex,
     photos.length,
   ]);
 
-  const activePhoto =
-    activeIndex !== null
-      ? photos[activeIndex]
+  const selectedPhoto =
+    selectedIndex !== null
+      ? photos[selectedIndex]
       : null;
 
   return (
     <>
-      <section className="photography-grid">
+      <div className="photo-gallery-grid">
         {photos.map(
           (
             photo,
             index,
-          ) => (
-            <button
-              type="button"
-              className="photography-card"
-              key={photo.id}
-              onClick={() =>
-                setActiveIndex(index)
-              }
-            >
-              <img
-                src={photo.src}
-                alt={photo.title}
-              />
+          ) => {
+            const layout =
+              layoutClasses[
+                index %
+                  layoutClasses.length
+              ];
 
-              <div className="photography-card-overlay">
-                <span>
+            return (
+              <button
+                key={photo.id}
+                type="button"
+                className={`photo-gallery-item photo-gallery-item--${layout}`}
+                onClick={() =>
+                  setSelectedIndex(
+                    index,
+                  )
+                }
+                aria-label={`Open ${
+                  photo.title ??
+                  `photograph ${
+                    index + 1
+                  }`
+                }`}
+              >
+                <img
+                  src={photo.src}
+                  alt={
+                    photo.alt ??
+                    photo.title ??
+                    "FlashPT7 photography"
+                  }
+                  loading={
+                    index > 2
+                      ? "lazy"
+                      : "eager"
+                  }
+                />
+
+                <div className="photo-gallery-shade" />
+
+                <div className="photo-gallery-number">
                   {String(
                     index + 1,
                   ).padStart(
                     2,
                     "0",
                   )}
-                </span>
-
-                <div>
-                  <h3>
-                    {photo.title}
-                  </h3>
-
-                  <p>
-                    View photograph
-                  </p>
                 </div>
-              </div>
-            </button>
-          ),
-        )}
-      </section>
 
-      {activePhoto &&
-        activeIndex !== null && (
+                <div className="photo-gallery-overlay">
+                  <div>
+                    <p>
+                      FLASHPT7
+                    </p>
+
+                    <h3>
+                      {photo.title ??
+                        "Photography"}
+                    </h3>
+                  </div>
+
+                  <span>
+                    View photograph
+                    ↗
+                  </span>
+                </div>
+              </button>
+            );
+          },
+        )}
+      </div>
+
+      {selectedPhoto &&
+        selectedIndex !==
+          null && (
           <div
-            className="lightbox"
+            className="photo-lightbox"
             role="dialog"
             aria-modal="true"
             aria-label={
-              activePhoto.title
+              selectedPhoto.title ??
+              "Photograph"
             }
-            onClick={closeLightbox}
+            onMouseDown={
+              closeLightbox
+            }
           >
-            <button
-              type="button"
-              className="lightbox-close"
-              aria-label="Close photograph"
-              onClick={
-                closeLightbox
-              }
-            >
-              ×
-            </button>
+            <div className="photo-lightbox-header">
+              <div>
+                <span>
+                  FLASHPT7
+                </span>
 
-            <button
-              type="button"
-              className="lightbox-navigation lightbox-previous"
-              aria-label="Previous photograph"
-              onClick={(event) => {
-                event.stopPropagation();
-                showPrevious();
-              }}
-            >
-              ←
-            </button>
+                <strong>
+                  {selectedPhoto.title ??
+                    "Photography"}
+                </strong>
+              </div>
+
+              <div className="photo-lightbox-counter">
+                {String(
+                  selectedIndex + 1,
+                ).padStart(
+                  2,
+                  "0",
+                )}
+                {" / "}
+                {String(
+                  photos.length,
+                ).padStart(
+                  2,
+                  "0",
+                )}
+              </div>
+
+              <button
+                type="button"
+                className="photo-lightbox-close"
+                onClick={
+                  closeLightbox
+                }
+                aria-label="Close photograph"
+              >
+                ×
+              </button>
+            </div>
 
             <div
-              className="lightbox-content"
-              onClick={(event) =>
+              className="photo-lightbox-content"
+              onMouseDown={(
+                event,
+              ) =>
                 event.stopPropagation()
               }
             >
-              <div className="lightbox-image-wrapper">
+              <button
+                type="button"
+                className="photo-lightbox-arrow photo-lightbox-arrow--left"
+                onClick={
+                  previousPhoto
+                }
+                aria-label="Previous photograph"
+              >
+                ←
+              </button>
+
+              <figure>
                 <img
-                  src={activePhoto.src}
+                  src={
+                    selectedPhoto.src
+                  }
                   alt={
-                    activePhoto.title
+                    selectedPhoto.alt ??
+                    selectedPhoto.title ??
+                    "FlashPT7 photography"
                   }
                 />
-              </div>
 
-              <div className="lightbox-info">
-                <div>
-                  <span className="lightbox-counter">
-                    {String(
-                      activeIndex + 1,
-                    ).padStart(
-                      2,
-                      "0",
-                    )}
-                    {" / "}
-                    {String(
-                      photos.length,
-                    ).padStart(
-                      2,
-                      "0",
-                    )}
-                  </span>
+                {(selectedPhoto.title ||
+                  selectedPhoto.description) && (
+                  <figcaption>
+                    <div>
+                      <span>
+                        {
+                          selectedPhoto.title
+                        }
+                      </span>
 
-                  <h2>
-                    {
-                      activePhoto.title
-                    }
-                  </h2>
+                      {selectedPhoto.description && (
+                        <p>
+                          {
+                            selectedPhoto.description
+                          }
+                        </p>
+                      )}
+                    </div>
 
-                  {activePhoto.description && (
-                    <p>
-                      {
-                        activePhoto.description
-                      }
-                    </p>
-                  )}
-                </div>
+                    <span>
+                      @flashpt7
+                    </span>
+                  </figcaption>
+                )}
+              </figure>
 
-                <span className="lightbox-hint">
-                  ← → Navigate · ESC Close
-                </span>
-              </div>
+              <button
+                type="button"
+                className="photo-lightbox-arrow photo-lightbox-arrow--right"
+                onClick={
+                  nextPhoto
+                }
+                aria-label="Next photograph"
+              >
+                →
+              </button>
             </div>
-
-            <button
-              type="button"
-              className="lightbox-navigation lightbox-next"
-              aria-label="Next photograph"
-              onClick={(event) => {
-                event.stopPropagation();
-                showNext();
-              }}
-            >
-              →
-            </button>
           </div>
         )}
     </>

@@ -2,55 +2,142 @@ import {
   Link,
 } from "react-router-dom";
 
-import heroImage from "../assets/hero.png";
-
 import {
   galleryCategories,
 } from "../data/gallery";
 
+import {
+  categoryCovers,
+} from "../data/photos";
+
+import "./GalleryPage.css";
+
 function GalleryPage() {
   return (
-    <div className="route-page">
-      <header className="route-header">
-        <Link
-          to="/"
-          className="route-brand"
-        >
-          <strong>
-            flashpt7
-          </strong>
+    <div className="gallery-page">
+      <main className="gallery-shell">
+        <header className="gallery-header">
+          <Link
+            to="/"
+            className="gallery-logo"
+          >
+            <strong>
+              flashpt7
+            </strong>
 
-          <span>
-            PHOTOGRAPHY
-          </span>
-        </Link>
+            <span>
+              PHOTOGRAPHY
+            </span>
+          </Link>
 
-        <Link
-          to="/"
-          className="route-back"
-        >
-          ← Home
-        </Link>
-      </header>
+          <nav className="gallery-nav">
+            <Link to="/">
+              Home
+            </Link>
 
-      <main>
-        <section className="route-hero">
-          <p className="route-eyebrow">
-            FLASHPT7 PHOTOGRAPHY
-          </p>
+            <span>
+              Gallery
+            </span>
 
-          <h1>
-            Gallery
-          </h1>
+            <a href="/#about">
+              About
+            </a>
 
-          <p className="route-description">
+            <a href="/#collaborations">
+              Collaborations
+            </a>
+
+            <a href="/#contact">
+              Contact
+            </a>
+          </nav>
+
+          <Link
+            to="/"
+            className="gallery-back"
+          >
+            ← Back Home
+          </Link>
+        </header>
+
+        <section className="gallery-hero">
+          <div
+            className="gallery-hero-image"
+            style={{
+              backgroundImage: `
+                linear-gradient(
+                  90deg,
+                  rgba(3, 5, 6, 0.92) 0%,
+                  rgba(3, 5, 6, 0.55) 40%,
+                  rgba(3, 5, 6, 0.12) 100%
+                ),
+                url(${categoryCovers.automotive})
+              `,
+            }}
+          />
+
+          <div className="gallery-hero-content">
+            <p className="gallery-eyebrow">
+              FLASHPT7 · PHOTOGRAPHY
+            </p>
+
+            <h1>
+              Selected
+              <br />
+
+              <em>
+                work.
+              </em>
+            </h1>
+
+            <p className="gallery-intro">
+              A collection of moments,
+              details, places and movement.
+            </p>
+          </div>
+
+          <div className="gallery-hero-note">
+            <span>
+              Explore
+            </span>
+
+            <strong>
+              05 categories
+            </strong>
+          </div>
+        </section>
+
+        <section className="gallery-introduction">
+          <div>
+            <span>
+              01
+            </span>
+
+            <p>
+              GALLERY
+            </p>
+          </div>
+
+          <h2>
             Different perspectives.
             <br />
-            Same passion.
+
+            <em>
+              Same passion.
+            </em>
+          </h2>
+
+          <p className="gallery-introduction-copy">
+            From the smallest details
+            in macro photography to
+            landscapes, animals,
+            nature and motorsport.
+            Every photograph has its
+            own story.
           </p>
         </section>
 
-        <section className="route-gallery-grid">
+        <section className="gallery-categories">
           {galleryCategories.map(
             (
               category,
@@ -59,36 +146,102 @@ function GalleryPage() {
               <Link
                 key={category.slug}
                 to={`/gallery/${category.slug}`}
-                className="route-gallery-card"
+                className="gallery-category"
               >
-                <div className="route-gallery-image">
-                  <img
-                    src={heroImage}
-                    alt={category.title}
-                  />
+                <div className="gallery-category-number">
+                  {String(
+                    index + 1,
+                  ).padStart(
+                    2,
+                    "0",
+                  )}
                 </div>
 
-                <div className="route-gallery-content">
-                  <span>
-                    0{index + 1}
-                  </span>
+                <div className="gallery-category-image">
+                  <img
+                    src={
+                      categoryCovers[
+                        category.slug
+                      ]
+                    }
+                    alt={
+                      category.title
+                    }
+                  />
 
-                  <h2>
-                    {category.title}
-                  </h2>
+                  <div className="gallery-category-overlay" />
+                </div>
 
-                  <p>
-                    {category.description}
-                  </p>
+                <div className="gallery-category-content">
+                  <div>
+                    <p>
+                      CATEGORY
+                    </p>
 
-                  <strong>
-                    Explore →
-                  </strong>
+                    <h3>
+                      {
+                        category.title
+                      }
+                    </h3>
+                  </div>
+
+                  <div className="gallery-category-description">
+                    <p>
+                      {
+                        category.intro
+                      }
+                    </p>
+
+                    <span>
+                      Explore collection
+                      →
+                    </span>
+                  </div>
                 </div>
               </Link>
             ),
           )}
         </section>
+
+        <section className="gallery-bottom">
+          <p>
+            No rush.
+            No goals.
+            Just moments.
+          </p>
+
+          <Link to="/">
+            Back to homepage
+
+            <span>
+              →
+            </span>
+          </Link>
+        </section>
+
+        <footer className="gallery-footer">
+          <div>
+            <strong>
+              flashpt7
+            </strong>
+
+            <span>
+              PHOTOGRAPHY
+            </span>
+          </div>
+
+          <a
+            href="https://instagram.com/flashpt7"
+            target="_blank"
+            rel="noreferrer"
+          >
+            @flashpt7
+          </a>
+
+          <span>
+            © 2026
+          </span>
+        </footer>
       </main>
     </div>
   );

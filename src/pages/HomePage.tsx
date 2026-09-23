@@ -14,15 +14,13 @@ import hero02 from "../assets/home/hero-02.png";
 import hero03 from "../assets/home/hero-03.png";
 import hero04 from "../assets/home/hero-04.png";
 
-import macroImage from "../assets/home/macro.png";
-import animalsImage from "../assets/home/animals.png";
-import landscapesImage from "../assets/home/landscapes.png";
-import automotiveImage from "../assets/home/automotive.png";
-import natureImage from "../assets/home/nature.png";
-
 import {
   galleryCategories,
 } from "../data/gallery";
+
+import {
+  categoryCovers,
+} from "../data/photos";
 
 const heroSlides = [
   {
@@ -47,54 +45,54 @@ const heroSlides = [
   },
 ];
 
-const categoryImages: Record<string, string> = {
-  macro: macroImage,
-  animals: animalsImage,
-  landscapes: landscapesImage,
-  automotive: automotiveImage,
-  nature: natureImage,
-};
-
 const features = [
   {
     icon: "◉",
     title: "Large View",
-    description: "Photography in fullscreen.",
+    description:
+      "Photography in fullscreen.",
   },
   {
     icon: "◐",
     title: "Before / After",
-    description: "Compare original and edited.",
+    description:
+      "Compare original and edited.",
   },
   {
     icon: "▦",
     title: "Collections",
-    description: "Photography series and projects.",
+    description:
+      "Photography series and projects.",
   },
   {
     icon: "▣",
     title: "Private Galleries",
-    description: "Exclusive client galleries.",
+    description:
+      "Exclusive client galleries.",
   },
   {
     icon: "⌖",
     title: "Photo Map",
-    description: "Explore photographs by location.",
+    description:
+      "Explore photographs by location.",
   },
   {
     icon: "♡",
     title: "Favorites",
-    description: "Save photographs you love.",
+    description:
+      "Save photographs you love.",
   },
   {
     icon: "⌕",
     title: "Search",
-    description: "Find photographs quickly.",
+    description:
+      "Find photographs quickly.",
   },
   {
     icon: "▷",
     title: "Slideshow",
-    description: "Immersive fullscreen presentation.",
+    description:
+      "Immersive fullscreen presentation.",
   },
 ];
 
@@ -392,7 +390,9 @@ function HomePage() {
                   2,
                   "0",
                 )}
+
                 {" / "}
+
                 {String(
                   heroSlides.length,
                 ).padStart(
@@ -405,7 +405,9 @@ function HomePage() {
                 <button
                   type="button"
                   aria-label="Previous slide"
-                  onClick={previousSlide}
+                  onClick={
+                    previousSlide
+                  }
                 >
                   ←
                 </button>
@@ -413,7 +415,9 @@ function HomePage() {
                 <button
                   type="button"
                   aria-label="Next slide"
-                  onClick={nextSlide}
+                  onClick={
+                    nextSlide
+                  }
                 >
                   →
                 </button>
@@ -451,14 +455,16 @@ function HomePage() {
               {galleryCategories.map(
                 (category) => (
                   <Link
-                    key={category.slug}
+                    key={
+                      category.slug
+                    }
                     to={`/gallery/${category.slug}`}
                     className="home-category-card"
                   >
                     <div className="home-category-image">
                       <img
                         src={
-                          categoryImages[
+                          categoryCovers[
                             category.slug
                           ]
                         }
@@ -520,12 +526,13 @@ function HomePage() {
 
             <p className="home-body-text">
               I'm Guilherme Silva,
-              the mind behind flashpt7.
-              Photography is my way of
-              capturing the details,
-              places, movement and
-              moments that make me stop
-              and look.
+              the mind behind
+              flashpt7. Photography
+              is my way of capturing
+              the details, places,
+              movement and moments
+              that make me stop and
+              look.
             </p>
 
             <a
@@ -627,21 +634,29 @@ function HomePage() {
             {features.map(
               (feature) => (
                 <article
-                  key={feature.title}
+                  key={
+                    feature.title
+                  }
                   className="home-feature-card"
                 >
                   <div className="home-feature-preview">
                     <span>
-                      {feature.icon}
+                      {
+                        feature.icon
+                      }
                     </span>
                   </div>
 
                   <h3>
-                    {feature.title}
+                    {
+                      feature.title
+                    }
                   </h3>
 
                   <p>
-                    {feature.description}
+                    {
+                      feature.description
+                    }
                   </p>
                 </article>
               ),
@@ -670,8 +685,10 @@ function HomePage() {
             </h2>
 
             <p className="home-body-text">
-              Photography, collaborations,
-              partnerships or simply a conversation.
+              Photography,
+              collaborations,
+              partnerships or simply
+              a conversation.
             </p>
 
             <a
@@ -679,7 +696,10 @@ function HomePage() {
               className="home-outline-button home-small-button"
             >
               contact@flashpt7.com
-              <span>↗</span>
+
+              <span>
+                ↗
+              </span>
             </a>
           </div>
 
