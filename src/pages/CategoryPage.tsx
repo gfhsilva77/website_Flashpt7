@@ -48,6 +48,16 @@ function CategoryPage() {
       category.slug
     ] ?? [];
 
+  const categoryIndex =
+    galleryCategories.findIndex(
+      (item) =>
+        item.slug ===
+        category.slug,
+    ) + 1;
+
+  const hasPhotos =
+    photos.length > 0;
+
   return (
     <div className="category-detail-page">
       <main className="category-detail-shell">
@@ -124,11 +134,7 @@ function CategoryPage() {
 
             <strong>
               {String(
-                galleryCategories.findIndex(
-                  (item) =>
-                    item.slug ===
-                    category.slug,
-                ) + 1,
+                categoryIndex,
               ).padStart(
                 2,
                 "0",
@@ -190,13 +196,57 @@ function CategoryPage() {
             <span>
               {photos.length}
               {" "}
-              PHOTOGRAPHS
+              {photos.length === 1
+                ? "PHOTOGRAPH"
+                : "PHOTOGRAPHS"}
             </span>
           </div>
 
-          <PhotoGallery
-            photos={photos}
-          />
+          {hasPhotos ? (
+            <PhotoGallery
+              photos={photos}
+            />
+          ) : (
+            <div className="category-detail-empty">
+              <div className="category-detail-empty-number">
+                00
+              </div>
+
+              <div className="category-detail-empty-content">
+                <span>
+                  COLLECTION COMING SOON
+                </span>
+
+                <h3>
+                  New moments
+                  <br />
+
+                  <em>
+                    are on the way.
+                  </em>
+                </h3>
+
+                <p>
+                  This collection is
+                  currently being prepared.
+                  New photographs will be
+                  added soon.
+                </p>
+
+                <Link to="/gallery">
+                  Explore other collections
+
+                  <span>
+                    →
+                  </span>
+                </Link>
+              </div>
+
+              <div className="category-detail-empty-mark">
+                flashpt7
+              </div>
+            </div>
+          )}
         </section>
 
         <section className="category-detail-next">

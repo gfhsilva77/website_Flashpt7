@@ -8,11 +8,25 @@ import {
 
 import {
   categoryCovers,
+  photosByCategory,
 } from "../data/photos";
 
 import "./GalleryPage.css";
 
 function GalleryPage() {
+  const totalPhotos =
+    Object.values(
+      photosByCategory,
+    ).reduce(
+      (
+        total,
+        photos,
+      ) =>
+        total +
+        photos.length,
+      0,
+    );
+
   return (
     <div className="gallery-page">
       <main className="gallery-shell">
@@ -102,8 +116,20 @@ function GalleryPage() {
             </span>
 
             <strong>
-              05 categories
+              {
+                galleryCategories.length
+              }
+              {" "}
+              categories
             </strong>
+
+            {totalPhotos > 0 && (
+              <small>
+                {totalPhotos}
+                {" "}
+                photographs
+              </small>
+            )}
           </div>
         </section>
 
@@ -142,64 +168,83 @@ function GalleryPage() {
             (
               category,
               index,
-            ) => (
-              <Link
-                key={category.slug}
-                to={`/gallery/${category.slug}`}
-                className="gallery-category"
-              >
-                <div className="gallery-category-number">
-                  {String(
-                    index + 1,
-                  ).padStart(
-                    2,
-                    "0",
-                  )}
-                </div>
+            ) => {
+              const photoCount =
+                photosByCategory[
+                  category.slug
+                ]?.length ?? 0;
 
-                <div className="gallery-category-image">
-                  <img
-                    src={
-                      categoryCovers[
-                        category.slug
-                      ]
-                    }
-                    alt={
-                      category.title
-                    }
-                  />
+              return (
+                <Link
+                  key={
+                    category.slug
+                  }
+                  to={`/gallery/${category.slug}`}
+                  className="gallery-category"
+                >
+                  <div className="gallery-category-number">
+                    {String(
+                      index + 1,
+                    ).padStart(
+                      2,
+                      "0",
+                    )}
+                  </div>
 
-                  <div className="gallery-category-overlay" />
-                </div>
-
-                <div className="gallery-category-content">
-                  <div>
-                    <p>
-                      CATEGORY
-                    </p>
-
-                    <h3>
-                      {
+                  <div className="gallery-category-image">
+                    <img
+                      src={
+                        categoryCovers[
+                          category.slug
+                        ]
+                      }
+                      alt={
                         category.title
                       }
-                    </h3>
+                    />
+
+                    <div className="gallery-category-overlay" />
                   </div>
 
-                  <div className="gallery-category-description">
-                    <p>
-                      {
-                        category.intro
-                      }
-                    </p>
+                  <div className="gallery-category-content">
+                    <div>
+                      <p>
+                        CATEGORY
+                      </p>
 
-                    <span>
-                      Explore collection
-                      →
-                    </span>
+                      <h3>
+                        {
+                          category.title
+                        }
+                      </h3>
+                    </div>
+
+                    <div className="gallery-category-description">
+                      <p>
+                        {
+                          category.intro
+                        }
+                      </p>
+
+                      <div className="gallery-category-meta">
+                        <span>
+                          {photoCount}
+                          {" "}
+                          {photoCount === 1
+                            ? "photograph"
+                            : "photographs"}
+                        </span>
+
+                        <span>
+                          Explore collection
+                          →
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ),
+                </Link>
+              );
+            },
           )}
         </section>
 
