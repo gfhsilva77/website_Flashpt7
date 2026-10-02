@@ -1,47 +1,44 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  Link,
-} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import ContactForm from "../components/ContactForm";
 
-import hero01 from "../assets/home/hero-01.png";
-import hero02 from "../assets/home/hero-02.png";
-import hero03 from "../assets/home/hero-03.png";
-import hero04 from "../assets/home/hero-04.png";
+import macroHero from "../assets/home/hero/macro.jpg";
+import animalsHero from "../assets/home/hero/animals.jpg";
+import landscapesHero from "../assets/home/hero/landscapes.jpg";
+import automotiveHero from "../assets/home/hero/automotive.jpg";
+import natureHero from "../assets/home/hero/nature.jpg";
 
-import {
-  galleryCategories,
-} from "../data/gallery";
+import { galleryCategories } from "../data/gallery";
+import { categoryCovers } from "../data/photos";
 
-import {
-  categoryCovers,
-} from "../data/photos";
+import "./HomeHero.css";
 
 const heroSlides = [
   {
-    image: hero01,
-    label:
-      "NATURE · ANIMALS · AUTOMOTIVE · MACRO · LANDSCAPES",
+    image: macroHero,
+    label: "MACRO · DETAILS · TEXTURES · LIFE",
+    category: "Macro",
   },
   {
-    image: hero02,
-    label:
-      "AUTOMOTIVE · MOTION · SPEED · STORIES",
+    image: animalsHero,
+    label: "ANIMALS · LIFE · EXPRESSIONS · MOMENTS",
+    category: "Animals",
   },
   {
-    image: hero03,
-    label:
-      "LANDSCAPES · LIGHT · PLACES · MOMENTS",
+    image: landscapesHero,
+    label: "LANDSCAPES · LIGHT · PLACES · MOMENTS",
+    category: "Landscapes",
   },
   {
-    image: hero04,
-    label:
-      "NATURE · DETAILS · LIFE · PERSPECTIVES",
+    image: automotiveHero,
+    label: "AUTOMOTIVE · MOTION · SPEED · STORIES",
+    category: "Automotive",
+  },
+  {
+    image: natureHero,
+    label: "NATURE · LIGHT · PLACES · PERSPECTIVES",
+    category: "Nature",
   },
 ];
 
@@ -49,50 +46,42 @@ const features = [
   {
     icon: "◉",
     title: "Large View",
-    description:
-      "Photography in fullscreen.",
+    description: "Photography in fullscreen.",
   },
   {
     icon: "◐",
     title: "Before / After",
-    description:
-      "Compare original and edited.",
+    description: "Compare original and edited.",
   },
   {
     icon: "▦",
     title: "Collections",
-    description:
-      "Photography series and projects.",
+    description: "Photography series and projects.",
   },
   {
     icon: "▣",
     title: "Private Galleries",
-    description:
-      "Exclusive client galleries.",
+    description: "Exclusive client galleries.",
   },
   {
     icon: "⌖",
     title: "Photo Map",
-    description:
-      "Explore photographs by location.",
+    description: "Explore photographs by location.",
   },
   {
     icon: "♡",
     title: "Favorites",
-    description:
-      "Save photographs you love.",
+    description: "Save photographs you love.",
   },
   {
     icon: "⌕",
     title: "Search",
-    description:
-      "Find photographs quickly.",
+    description: "Find photographs quickly.",
   },
   {
     icon: "▷",
     title: "Slideshow",
-    description:
-      "Immersive fullscreen presentation.",
+    description: "Immersive fullscreen presentation.",
   },
 ];
 
@@ -112,13 +101,8 @@ function AdSlot({
         </span>
 
         <div>
-          <strong>
-            AD SPACE
-          </strong>
-
-          <span>
-            {position}
-          </span>
+          <strong>AD SPACE</strong>
+          <span>{position}</span>
         </div>
       </div>
     </section>
@@ -126,47 +110,35 @@ function AdSlot({
 }
 
 function HomePage() {
-  const [
-    menuOpen,
-    setMenuOpen,
-  ] = useState(false);
+  const [menuOpen, setMenuOpen] =
+    useState(false);
 
-  const [
-    currentSlide,
-    setCurrentSlide,
-  ] = useState(0);
+  const [currentSlide, setCurrentSlide] =
+    useState(0);
 
   useEffect(() => {
     document.body.style.overflow =
-      menuOpen
-        ? "hidden"
-        : "";
+      menuOpen ? "hidden" : "";
 
     return () => {
-      document.body.style.overflow =
-        "";
+      document.body.style.overflow = "";
     };
   }, [menuOpen]);
 
   useEffect(() => {
-    const interval =
-      window.setInterval(
-        () => {
-          setCurrentSlide(
-            (current) =>
-              (
-                current + 1
-              ) %
-              heroSlides.length,
-          );
-        },
-        7000,
-      );
+    const interval = window.setInterval(
+      () => {
+        setCurrentSlide(
+          (current) =>
+            (current + 1) %
+            heroSlides.length,
+        );
+      },
+      7000,
+    );
 
     return () => {
-      window.clearInterval(
-        interval,
-      );
+      window.clearInterval(interval);
     };
   }, []);
 
@@ -186,9 +158,7 @@ function HomePage() {
   const nextSlide = () => {
     setCurrentSlide(
       (current) =>
-        (
-          current + 1
-        ) %
+        (current + 1) %
         heroSlides.length,
     );
   };
@@ -209,9 +179,7 @@ function HomePage() {
               className="home-logo"
               onClick={closeMenu}
             >
-              <strong>
-                flashpt7
-              </strong>
+              <strong>flashpt7</strong>
 
               <span>
                 PHOTOGRAPHY
@@ -336,20 +304,15 @@ function HomePage() {
           <section className="home-hero">
             <div
               key={currentSlide}
-              className="home-hero-background"
-              style={{
-                backgroundImage: `
-                  linear-gradient(
-                    90deg,
-                    rgba(3, 5, 6, 0.96) 0%,
-                    rgba(3, 5, 6, 0.78) 30%,
-                    rgba(3, 5, 6, 0.22) 70%,
-                    rgba(3, 5, 6, 0.46) 100%
-                  ),
-                  url(${slide.image})
-                `,
-              }}
-            />
+              className="home-hero-media"
+            >
+              <img
+                src={slide.image}
+                alt={`${slide.category} photography by FlashPT7`}
+              />
+            </div>
+
+            <div className="home-hero-overlay" />
 
             <div className="home-hero-content">
               <p className="home-hero-categories">
@@ -376,9 +339,7 @@ function HomePage() {
               >
                 Explore Gallery
 
-                <span>
-                  →
-                </span>
+                <span>→</span>
               </Link>
             </div>
 
@@ -386,28 +347,20 @@ function HomePage() {
               <span>
                 {String(
                   currentSlide + 1,
-                ).padStart(
-                  2,
-                  "0",
-                )}
+                ).padStart(2, "0")}
 
                 {" / "}
 
                 {String(
                   heroSlides.length,
-                ).padStart(
-                  2,
-                  "0",
-                )}
+                ).padStart(2, "0")}
               </span>
 
               <div className="home-slider-arrows">
                 <button
                   type="button"
                   aria-label="Previous slide"
-                  onClick={
-                    previousSlide
-                  }
+                  onClick={previousSlide}
                 >
                   ←
                 </button>
@@ -415,9 +368,7 @@ function HomePage() {
                 <button
                   type="button"
                   aria-label="Next slide"
-                  onClick={
-                    nextSlide
-                  }
+                  onClick={nextSlide}
                 >
                   →
                 </button>
@@ -425,13 +376,8 @@ function HomePage() {
             </div>
 
             <div className="home-hero-quote">
-              <span>
-                No rush.
-              </span>
-
-              <span>
-                No goals.
-              </span>
+              <span>No rush.</span>
+              <span>No goals.</span>
 
               <strong>
                 Just moments.
@@ -455,9 +401,7 @@ function HomePage() {
               {galleryCategories.map(
                 (category) => (
                   <Link
-                    key={
-                      category.slug
-                    }
+                    key={category.slug}
                     to={`/gallery/${category.slug}`}
                     className="home-category-card"
                   >
@@ -478,9 +422,7 @@ function HomePage() {
 
                     <div className="home-category-info">
                       <h3>
-                        {
-                          category.title
-                        }
+                        {category.title}
                       </h3>
 
                       <p>
@@ -526,13 +468,12 @@ function HomePage() {
 
             <p className="home-body-text">
               I'm Guilherme Silva,
-              the mind behind
-              flashpt7. Photography
-              is my way of capturing
-              the details, places,
-              movement and moments
-              that make me stop and
-              look.
+              the mind behind flashpt7.
+              Photography is my way of
+              capturing the details,
+              places, movement and
+              moments that make me stop
+              and look.
             </p>
 
             <a
@@ -541,9 +482,7 @@ function HomePage() {
             >
               Learn More
 
-              <span>
-                →
-              </span>
+              <span>→</span>
             </a>
 
             <div className="home-script">
@@ -576,9 +515,7 @@ function HomePage() {
 
             <div className="home-work-options">
               <div>
-                <span>
-                  ◉
-                </span>
+                <span>◉</span>
 
                 <strong>
                   Photography
@@ -586,9 +523,7 @@ function HomePage() {
               </div>
 
               <div>
-                <span>
-                  ♢
-                </span>
+                <span>♢</span>
 
                 <strong>
                   Collaborations
@@ -596,9 +531,7 @@ function HomePage() {
               </div>
 
               <div>
-                <span>
-                  ✓
-                </span>
+                <span>✓</span>
 
                 <strong>
                   Brand Partnerships
@@ -612,9 +545,7 @@ function HomePage() {
             >
               Get In Touch
 
-              <span>
-                →
-              </span>
+              <span>→</span>
             </a>
           </article>
         </section>
@@ -634,29 +565,21 @@ function HomePage() {
             {features.map(
               (feature) => (
                 <article
-                  key={
-                    feature.title
-                  }
+                  key={feature.title}
                   className="home-feature-card"
                 >
                   <div className="home-feature-preview">
                     <span>
-                      {
-                        feature.icon
-                      }
+                      {feature.icon}
                     </span>
                   </div>
 
                   <h3>
-                    {
-                      feature.title
-                    }
+                    {feature.title}
                   </h3>
 
                   <p>
-                    {
-                      feature.description
-                    }
+                    {feature.description}
                   </p>
                 </article>
               ),
@@ -697,9 +620,7 @@ function HomePage() {
             >
               contact@flashpt7.com
 
-              <span>
-                ↗
-              </span>
+              <span>↗</span>
             </a>
           </div>
 

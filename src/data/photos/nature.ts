@@ -4,7 +4,7 @@ import {
 
 const images =
   import.meta.glob(
-    "../../assets/gallery/nature/*.{jpg,jpeg,png,webp,avif}",
+    "../../assets/gallery/nature/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}",
     {
       eager: true,
       import: "default",
